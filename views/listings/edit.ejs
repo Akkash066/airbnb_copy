@@ -1,12 +1,4 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotels</title>
-</head> -->
 <% layout("/layouts/boilerplate") -%>
-<body>
     <h3>Edit Listing</h3>
     <form method="post" action="/listings/<%= listing._id%>?_method=PUT">
         <input type="text" name="listing[title]" value="<%=listing.title%>">
@@ -23,5 +15,3 @@
         <br>
         <button>edit</button>
     </form>
-</body>
-<!-- </html> -->

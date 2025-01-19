@@ -1,5 +1,11 @@
 body{
-  font-family: "Plus Jakarta Sans", serif !important;
+    font-family: "Plus Jakarta Sans", serif !important;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.container{
+    flex: 1;
 }
 .navbar{
     height: 5rem;
@@ -55,4 +61,9 @@ body{
 }
 .card-text{
     font-weight: 400;
+}
+/* new page */
+.add-btn{
+    background-color: #fe424d !important;
+    border: none !important;
 }

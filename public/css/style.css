@@ -74,3 +74,14 @@ body{
     background-color: #fe424d !important;
     border: none !important;
 }
+
+/* show page  */
+.show-img{
+    height: 30vh;
+}
+.show-btns{
+    opacity: 0.5;
+}
+.show-btns:hover{
+    opacity: 1;
+}

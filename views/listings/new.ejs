@@ -2,9 +2,14 @@
 <body>
   <div class="row">
     <div class="col-8 offset-2">
-        <br><br>
+      <br /><br />
       <h3>Create a new listing</h3>
-      <form method="post" action="/listings" novalidate class="needs-validation">
+      <form
+        method="post"
+        action="/listings"
+        novalidate
+        class="needs-validation"
+      >
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
           <input
@@ -14,9 +19,7 @@
             class="form-control"
             required
           />
-        <div class="invalid-feedback">
-        Please choose a username.
-      </div>
+          <div class="invalid-feedback">should be enter a title</div>
         </div>
         <div class="mb-3">
           <label for="title" class="form-label">Description</label>
@@ -27,9 +30,7 @@
             class="form-control"
             required
           ></textarea>
-        <div class="invalid-feedback">
-        Please choose a username.
-      </div>
+          <div class="invalid-feedback">Please enter a short description</div>
         </div>
         <div class="mb-3">
           <label for="title" class="form-label">Image url/link</label>
@@ -50,9 +51,7 @@
               class="form-control"
               required
             />
-          <div class="invalid-feedback">
-        Please choose a username.
-      </div>
+            <div class="invalid-feedback">Price should be valid</div>
           </div>
           <div class="mb-3 col-md-8">
             <label for="title" class="form-label">country</label>
@@ -63,9 +62,7 @@
               class="form-control"
               required
             />
-            <div class="invalid-feedback">
-        Please choose a username.
-      </div>
+            <div class="invalid-feedback">Country name should be valid</div>
           </div>
         </div>
 
@@ -78,9 +75,7 @@
             class="form-control"
             required
           />
-          <div class="invalid-feedback">
-        Please choose a username.
-      </div>
+          <div class="invalid-feedback">Address should be valid</div>
         </div>
         <br />
         <button class="btn btn-dark add-btn">submit</button>

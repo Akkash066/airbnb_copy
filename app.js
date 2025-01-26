@@ -7,6 +7,8 @@ const path = require("path");
 const methodOverride = require('method-override');
 const ejsMate = require("ejs-mate");
 
+const wrapAsync = require("./utils/wrapAsync.js");
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
@@ -45,18 +47,14 @@ app.get("/listings/:id", async (req, res) => {
     res.render("listings/show.ejs", { listing });
 });
 
+const wrapAsync = require("./utils/wrapAsync.js");
 // create route with post
-app.post("/listings", async (req, res, next) => {
+app.post("/listings", wrapAsync(async (req, res, next) => {
     // let {title, description, image, price, country, location} = req.body;
-    try {
         const newListing = new Listing(req.body.listing);
         await newListing.save();
         res.redirect("/listings");
-    } catch (err) {
-        next(err);
-    }
-
-});
+}));
 
 // update : Edit & Update Route
 //edit route

@@ -46,8 +46,6 @@ app.get("/listings/:id", async (req, res) => {
     const listing = await Listing.findById(id);
     res.render("listings/show.ejs", { listing });
 });
-
-const wrapAsync = require("./utils/wrapAsync.js");
 // create route with post
 app.post("/listings", wrapAsync(async (req, res, next) => {
     // let {title, description, image, price, country, location} = req.body;

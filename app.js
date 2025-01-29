@@ -10,12 +10,24 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 
+const {listingSchema} = require("./schema.js");
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
+
+
+const validateListing = (req, res, next) => {
+    let {error} = listingSchema.validate(req.body);
+    if(error){
+        throw new ExpressError(400, error);
+    }else{
+        next();
+    }
+}
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/hotels";
 main()
@@ -48,8 +60,25 @@ app.get("/listings/:id", wrapAsync(async (req, res) => {
     res.render("listings/show.ejs", { listing });
 }));
 // create route with post
-app.post("/listings", wrapAsync(async (req, res, next) => {
-    // let {title, description, image, price, country, location} = req.body;
+// app.post("/listings", wrapAsync(async (req, res, next) => {
+//     // let {title, description, image, price, country, location} = req.body;
+//         if(!req.body.listing) {
+//             throw new ExpressError(400, "send valid data for listing");
+//         }
+//         const newListing = new Listing(req.body.listing);
+//         // if(!newListing.title){
+//         //     throw new ExpressError(400, "Title is missing");
+//         // }
+//         // if(!newListing.description){
+//         //     throw new ExpressError(400, "Description is missing");
+//         // }
+//         await newListing.save();
+//         res.redirect("/listings");
+// }));
+
+// create route with post (implemented)
+    // -----for implementation of this bulky code use JOI use for validate schema
+app.post("/listings", validateListing, wrapAsync(async (req, res) => {
         const newListing = new Listing(req.body.listing);
         await newListing.save();
         res.redirect("/listings");
@@ -64,7 +93,7 @@ app.get("/listings/:id/edit", wrapAsync(async (req, res) => {
 }));
 // const wrapAsync = require("./utils/wrapAsync.js");
 // update
-app.put("/listings/:id", wrapAsync(async (req, res) => {
+app.put("/listings/:id",validateListing, wrapAsync(async (req, res) => {
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     res.redirect("/listings");
@@ -98,9 +127,9 @@ app.all("*", (req, res, next) =>{
 
 // new middleware
 app.use((err, req, res, next) => {
-    let {status, message} = err;
+    let {statusCode, message} = err;
     // res.status(status).send(message);
-    res.render("error.ejs", {message});
+    res.status(statusCode).render("error.ejs", {message});
 })
 app.listen(8080, () => {
     console.log("server is listening to port 8080");

@@ -3,14 +3,13 @@ const app = express();
 const mongoose = require('mongoose');
 const Listing = require("./models/listing.js");
 const path = require("path");
-
 const methodOverride = require('method-override');
 const ejsMate = require("ejs-mate");
-
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const {listingSchema, reviewsSchema} = require("./schema.js");
+const Review = require("./models/review.js");
 
-const {listingSchema} = require("./schema.js");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -27,7 +26,15 @@ const validateListing = (req, res, next) => {
     }else{
         next();
     }
-}
+};
+const validateReview = (req, res, next) => {
+    let {error} = reviewsSchema.validate(req.body);
+    if(error){
+        throw new ExpressError(400, error);
+    }else{
+        next();
+    }
+};
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/hotels";
 main()
@@ -107,6 +114,19 @@ app.delete("/listings/:id", wrapAsync(async (req, res) => {
     console.log(deletedListing);
     res.redirect("/listings");
 }));
+
+//Reviews
+//Post rroute
+app.post("/listings/:id/reviews",validateReview, wrapAsync(async(req, res) =>{
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review);
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+    console.log("review saved");
+    res.redirect(`/listings/${listing._id}`);
+}) )
 
 // app.get("/testListing",async (req, res)=>{
 //     let sampleListing = new Listing({

@@ -22,40 +22,46 @@
 </div>
 <div class="row offset-2">
   <div class="col-2">
-    <a href="/listings/<%=listing._id%>/edit" class="btn btn-success show-btns">Edit</a>
+    <a href="/listings/<%=listing._id%>/edit" class="btn btn-success show-btns"
+      >Edit</a
+    >
   </div>
   <div class="col-4">
     <form method="post" action="/listings/<%=listing._id%>?_method=Delete">
       <button class="btn btn-dark show-btns">Delete</button>
-    </form><br><br>
+    </form>
+    <br /><br />
   </div>
-  <hr>
+  <hr />
 </div>
 <!-- review  -->
 <div class="col-8 offset-2">
   <h4>Leave a Review</h4>
-  <form>
+  <form action="/listings/<%=listing.id%>/reviews" method="post" novalidate
+    class="needs-validation">
     <div>
       <label for="rating" class="form-label">Rating</label>
-      <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
+      <input
+        type="range"
+        min="1"
+        max="5"
+        id="rating"
+        name="review[rating]"
+        class="form-range"
+      />
     </div>
     <div>
       <label for="comment" class="form-label">Comments</label>
-      <textarea name="review[comment]" id="comment" class="form-control"></textarea>
+      <textarea
+        name="review[comment]"
+        id="comment"
+        class="form-control"
+        required
+      ></textarea>
+      <div class="invalid-feedback">Comment should be not blank</div>
     </div>
     <div class="mt-3">
       <button class="btn btn-outline-dark">submit</button>
     </div>
   </form>
- </div>
-
-<!-- <ul>
-    <li><%=listing.title%></li>
-    <li><%=listing.description%></li>
-    <li>&#8377;<%=listing.price.toLocaleString("en-IN")%></li>
-    <li><%=listing.location%></li>
-    <li><%=listing.country%></li>
-  </ul> -->
-<br />
-
-<body></body>
+</div>
